@@ -1,5 +1,10 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import 'swiper/css';
+
 :root {
-  --font-mono: 'Roboto Mono', monospace;
+  --font-klavika: var(--font-klavika);
 }
 
 * {
@@ -10,7 +15,6 @@ html {
   font-size: 18px;
   line-height: 32px;
 
-  background: rgb(0, 0, 0);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -21,12 +25,11 @@ body,
 }
 
 body {
-  font-family: system-ui;
+  font-family: var(--font-klavika);
   font-size: 18px;
   line-height: 32px;
 
   margin: 0;
-  color: rgb(1000, 1000, 1000);
 
   @media (max-width: 1024px) {
     font-size: 15px;
