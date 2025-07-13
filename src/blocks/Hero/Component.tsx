@@ -2,18 +2,10 @@
 import React from 'react'
 import Image from 'next/image'
 
-import { ImageField } from '@/types/ImageField'
-import { CTA } from '@/types/CTAType'
 import CtaButton from '@/components/CtaButton'
+import { HeroBlock } from '@/types/PagesType'
 
-type Props = {
-  title: string
-  ctaPrimary?: CTA
-  ctaSecondary?: CTA
-  image?: ImageField
-}
-
-export default function HeroBlock({ title, ctaPrimary, ctaSecondary, image }: Props) {
+export default function HeroBlockComponent({ title, ctaPrimary, ctaSecondary, image }: HeroBlock) {
   return (
     <section className="min-h-screen flex flex-col md:flex-row items-center justify-between px-6 md:px-20 py-8 bg-gradient-to-b from-white to-gray-100">
       {/* Text content */}

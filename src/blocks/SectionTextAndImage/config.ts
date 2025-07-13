@@ -6,6 +6,7 @@ export const SectionWithMediaAndText: Block = {
     singular: 'Sezione con foto e testo',
     plural: 'Sezioni con foto e testo',
   },
+  interfaceName: 'SectionWithMediaAndText',
   fields: [
     {
       name: 'title',

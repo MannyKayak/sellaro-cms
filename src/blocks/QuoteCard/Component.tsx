@@ -1,13 +1,9 @@
 'use client'
 
+import { QuoteContainer } from '@/types/PagesType'
 import React from 'react'
-import { Quote } from '@/types/PagesType'
 
-type Props = {
-  quotes: Quote[]
-}
-
-export default function QuoteCard({ quotes }: Props) {
+export default function QuoteCard({ quotes }: QuoteContainer) {
   if (!quotes || quotes.length === 0) return null
 
   return (

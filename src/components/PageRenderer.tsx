@@ -1,51 +1,40 @@
-import type { PageBlock, Quote } from '@/types/PagesType'
-import { RichText } from '@/components/RichText'
-import QuoteCard from '@/blocks/QuoteCard/Component'
-import HeroBlock from '@/blocks/Hero/Component'
+import ArticleCardComponent from '@/blocks/ArticleCard/Component'
 import CarouselBlock from '@/blocks/Carousel/Component'
-import SectionBlock from '@/blocks/SectionTextAndImage/Component'
-import CardGridSection from './GridComponent'
+import HeroBlockComponent from '@/blocks/Hero/Component'
+import QuoteCard from '@/blocks/QuoteCard/Component'
+import SectionWithMediaAndTextComponent from '@/blocks/SectionTextAndImage/Component'
+import { Page } from '@/payload-types'
+import React, { Fragment } from 'react'
 
-export default function PageRenderer({ layout }: { layout: PageBlock[] }) {
-  return (
-    <>
-      {layout.map((block, i) => {
-        switch (block.blockType) {
-          case 'hero':
-            return (
-              <HeroBlock
-                key={i}
-                title={block.title}
-                ctaPrimary={block.ctaPrimary}
-                ctaSecondary={block.ctaSecondary}
-                image={block.image}
-              />
-            )
+const blockComponents = {
+  sectionWithMediaAndText: SectionWithMediaAndTextComponent,
+  carousel: CarouselBlock,
+  quoteCard: QuoteCard,
+  articleCard: ArticleCardComponent,
+  hero: HeroBlockComponent,
+}
 
-          case 'carousel':
-            return <CarouselBlock key={i} title={block.title} events={block.events} />
-
-          case 'sectionWithMediaAndText':
-            return (
-              <SectionBlock
-                key={i}
-                title={block.title}
-                content={<RichText data={block.content} />}
-                image={block.image}
-                layout={block.layout}
-              />
-            )
-
-          case 'quoteContainer':
-            return (
-              <CardGridSection title={block.}>
-
-              </CardGridSection>
-            )
-          default:
-            return null
-        }
-      })}
-    </>
-  )
+export const RenderBlocks: React.FC<{ blocks: Page['layout'] }> = (props) => {
+  const { blocks } = props
+  const hasBlocks = blocks && Array.isArray(blocks) && blocks.length > 0
+  if (hasBlocks) {
+    return (
+      <Fragment>
+        {blocks.map((block, i) => {
+          const { blockType } = block
+          if (blockType && blockType in blockComponents) {
+            const Block = blockComponents[blockType]
+            if (Block) {
+              return (
+                <div key={i}>
+                  {/*@ts-expect-error*/}
+                  <Block {...block} />
+                </div>
+              )
+            }
+          }
+        })}
+      </Fragment>
+    )
+  }
 }

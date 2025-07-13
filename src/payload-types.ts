@@ -218,24 +218,24 @@ export interface Page {
    */
   slug: string;
   layout: (
+    | HeroBlock
+    | SectionWithMediaAndText
     | {
-        title: string;
-        ctaPrimary?: {
-          label?: string | null;
-          url?: string | null;
-        };
-        ctaSecondary?: {
-          label?: string | null;
-          url?: string | null;
-        };
-        image?: (number | null) | Media;
+        title?: string | null;
+        events: (number | Eventi)[];
         id?: string | null;
         blockName?: string | null;
-        blockType: 'hero';
+        blockType: 'carousel';
       }
     | {
-        title: string;
-        content: {
+        quote: (number | Quote)[];
+        id?: string | null;
+        blockName?: string | null;
+        blockType: 'quoteCard';
+      }
+    | {
+        title?: string | null;
+        description?: {
           root: {
             type: string;
             children: {
@@ -249,25 +249,11 @@ export interface Page {
             version: number;
           };
           [k: string]: unknown;
-        };
-        image?: (number | null) | Media;
-        layout?: ('right' | 'left') | null;
+        } | null;
+        article?: (number | null) | Articoli;
         id?: string | null;
         blockName?: string | null;
-        blockType: 'sectionWithMediaAndText';
-      }
-    | {
-        title?: string | null;
-        events: (number | Eventi)[];
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'carousel';
-      }
-    | {
-        quotes: (number | Quote)[];
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'flashCard';
+        blockType: 'articleCard';
       }
   )[];
   meta?: {
@@ -276,6 +262,52 @@ export interface Page {
   };
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` " HeroBlock".
+ */
+export interface HeroBlock {
+  title: string;
+  ctaPrimary?: {
+    label?: string | null;
+    url?: string | null;
+  };
+  ctaSecondary?: {
+    label?: string | null;
+    url?: string | null;
+  };
+  image?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionWithMediaAndText".
+ */
+export interface SectionWithMediaAndText {
+  title: string;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  image?: (number | null) | Media;
+  layout?: ('right' | 'left') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'sectionWithMediaAndText';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -452,36 +484,8 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        hero?:
-          | T
-          | {
-              title?: T;
-              ctaPrimary?:
-                | T
-                | {
-                    label?: T;
-                    url?: T;
-                  };
-              ctaSecondary?:
-                | T
-                | {
-                    label?: T;
-                    url?: T;
-                  };
-              image?: T;
-              id?: T;
-              blockName?: T;
-            };
-        sectionWithMediaAndText?:
-          | T
-          | {
-              title?: T;
-              content?: T;
-              image?: T;
-              layout?: T;
-              id?: T;
-              blockName?: T;
-            };
+        hero?: T | HeroBlockSelect<T>;
+        sectionWithMediaAndText?: T | SectionWithMediaAndTextSelect<T>;
         carousel?:
           | T
           | {
@@ -490,10 +494,19 @@ export interface PagesSelect<T extends boolean = true> {
               id?: T;
               blockName?: T;
             };
-        flashCard?:
+        quoteCard?:
           | T
           | {
-              quotes?: T;
+              quote?: T;
+              id?: T;
+              blockName?: T;
+            };
+        articleCard?:
+          | T
+          | {
+              title?: T;
+              description?: T;
+              article?: T;
               id?: T;
               blockName?: T;
             };
@@ -506,6 +519,40 @@ export interface PagesSelect<T extends boolean = true> {
       };
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` " HeroBlock_select".
+ */
+export interface HeroBlockSelect {
+  title?: boolean;
+  ctaPrimary?:
+    | boolean
+    | {
+        label?: boolean;
+        url?: boolean;
+      };
+  ctaSecondary?:
+    | boolean
+    | {
+        label?: boolean;
+        url?: boolean;
+      };
+  image?: boolean;
+  id?: boolean;
+  blockName?: boolean;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "SectionWithMediaAndText_select".
+ */
+export interface SectionWithMediaAndTextSelect<T extends boolean = true> {
+  title?: T;
+  content?: T;
+  image?: T;
+  layout?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

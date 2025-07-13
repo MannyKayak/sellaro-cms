@@ -3,7 +3,8 @@ import type { CollectionConfig } from 'payload'
 import { CarouselBlock } from '@/blocks/Carousel/config'
 import { SectionWithMediaAndText } from '@/blocks/SectionTextAndImage/config'
 import { HeroBlock } from '@/blocks/Hero/config'
-import { QuoteCard } from '@/blocks/QuoteCard/config'
+import { QuoteCardBlock } from '@/blocks/QuoteCard/config'
+import { ArticleCardBlock } from '@/blocks/ArticleCard/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -36,7 +37,7 @@ export const Pages: CollectionConfig = {
       label: 'Contenuto della pagina',
       type: 'blocks',
       required: true,
-      blocks: [HeroBlock, SectionWithMediaAndText, CarouselBlock, QuoteCard],
+      blocks: [HeroBlock, SectionWithMediaAndText, CarouselBlock, QuoteCardBlock, ArticleCardBlock],
     },
     {
       name: 'meta',
