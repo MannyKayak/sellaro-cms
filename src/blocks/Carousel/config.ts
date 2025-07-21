@@ -7,6 +7,7 @@ export const CarouselBlock: Block = {
     singular: 'Carosello Eventi',
     plural: 'Caroselli Eventi',
   },
+  interfaceName: 'CarouselBlock',
   fields: [
     {
       name: 'title',

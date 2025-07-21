@@ -2,34 +2,39 @@ import type { CollectionConfig } from 'payload'
 
 export const Events: CollectionConfig = {
   slug: 'Eventi',
-  upload: true,
   fields: [
     {
-      name: 'Titolo',
+      name: 'title',
       type: 'text',
       required: true,
     },
     {
-      name: 'Luogo',
+      name: 'image',
+      label: 'Immagine',
+      type: 'upload',
+      relationTo: 'media',
+    },
+    {
+      name: 'location',
       type: 'text',
       required: true,
     },
     {
-      name: 'Data',
+      name: 'date',
       type: 'date',
       required: true,
     },
     {
-      name: 'Link iscrizione',
+      name: 'link',
       type: 'text',
     },
     {
-      name: 'Descrizione',
+      name: 'descrizione',
       type: 'textarea',
       required: true,
     },
     {
-      name: 'Altre info',
+      name: 'otherInfo',
       type: 'textarea',
     },
   ],

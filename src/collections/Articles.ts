@@ -1,17 +1,23 @@
 import type { CollectionConfig } from 'payload'
 
 export const Articles: CollectionConfig = {
-  slug: 'Articoli',
-  upload: true,
+  slug: 'articles',
+  labels: {
+    singular: 'Articolo',
+    plural: 'Articoli',
+  },
   fields: [
     {
-      name: 'Titolo',
+      name: 'title',
+      label: 'Titolo',
       type: 'text',
       required: true,
     },
     {
-      name: 'Textata',
-      type: 'text',
+      name: 'image',
+      label: 'Immagine',
+      type: 'upload',
+      relationTo: 'media',
     },
     {
       name: 'Data Evento',
@@ -28,7 +34,6 @@ export const Articles: CollectionConfig = {
     {
       name: 'Descrizione',
       type: 'textarea',
-      required: true,
     },
     {
       name: 'Altre info',

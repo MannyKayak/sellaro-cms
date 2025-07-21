@@ -13,6 +13,7 @@ import { Events } from './collections/Events'
 import { Articles } from './collections/Articles'
 import { Pages } from './collections/Pages'
 import { Quotes } from './collections/Quotes'
+import { People } from './collections/People'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -24,7 +25,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Events, Articles, Pages, Quotes],
+  collections: [Users, Media, Events, Articles, Pages, Quotes, People],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

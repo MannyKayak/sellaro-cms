@@ -70,9 +70,10 @@ export interface Config {
     users: User;
     media: Media;
     Eventi: Eventi;
-    Articoli: Articoli;
+    articles: Article;
     pages: Page;
     quotes: Quote;
+    people: Person;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -82,9 +83,10 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     Eventi: EventiSelect<false> | EventiSelect<true>;
-    Articoli: ArticoliSelect<false> | ArticoliSelect<true>;
+    articles: ArticlesSelect<false> | ArticlesSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     quotes: QuotesSelect<false> | QuotesSelect<true>;
+    people: PeopleSelect<false> | PeopleSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -163,48 +165,31 @@ export interface Media {
  */
 export interface Eventi {
   id: number;
-  Titolo: string;
-  Luogo: string;
-  Data: string;
-  'Link iscrizione'?: string | null;
-  Descrizione: string;
-  'Altre info'?: string | null;
+  title: string;
+  image?: (number | null) | Media;
+  location: string;
+  date: string;
+  link?: string | null;
+  descrizione: string;
+  otherInfo?: string | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Articoli".
+ * via the `definition` "articles".
  */
-export interface Articoli {
+export interface Article {
   id: number;
-  Titolo: string;
-  Textata?: string | null;
+  title: string;
+  image?: (number | null) | Media;
   'Data Evento'?: string | null;
   'Data Articolo'?: string | null;
   Link?: string | null;
-  Descrizione: string;
+  Descrizione?: string | null;
   'Altre info'?: string | null;
   updatedAt: string;
   createdAt: string;
-  url?: string | null;
-  thumbnailURL?: string | null;
-  filename?: string | null;
-  mimeType?: string | null;
-  filesize?: number | null;
-  width?: number | null;
-  height?: number | null;
-  focalX?: number | null;
-  focalY?: number | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -220,41 +205,11 @@ export interface Page {
   layout: (
     | HeroBlock
     | SectionWithMediaAndText
-    | {
-        title?: string | null;
-        events: (number | Eventi)[];
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'carousel';
-      }
-    | {
-        quote: (number | Quote)[];
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'quoteCard';
-      }
-    | {
-        title?: string | null;
-        description?: {
-          root: {
-            type: string;
-            children: {
-              type: string;
-              version: number;
-              [k: string]: unknown;
-            }[];
-            direction: ('ltr' | 'rtl') | null;
-            format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-            indent: number;
-            version: number;
-          };
-          [k: string]: unknown;
-        } | null;
-        article?: (number | null) | Articoli;
-        id?: string | null;
-        blockName?: string | null;
-        blockType: 'articleCard';
-      }
+    | CarouselBlock
+    | QuoteBlock
+    | PageTitleBlock
+    | ArticlesBlock
+    | BimTeamProps
   )[];
   meta?: {
     metaTitle?: string | null;
@@ -311,6 +266,31 @@ export interface SectionWithMediaAndText {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CarouselBlock".
+ */
+export interface CarouselBlock {
+  title?: string | null;
+  events: (number | Eventi)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'carousel';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuoteBlock".
+ */
+export interface QuoteBlock {
+  blockTitle?: string | null;
+  quotes: {
+    quote?: (number | null) | Quote;
+    id?: string | null;
+  }[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'quoteBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "quotes".
  */
 export interface Quote {
@@ -318,6 +298,58 @@ export interface Quote {
   content: string;
   source: string;
   article?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PageTitleBlock".
+ */
+export interface PageTitleBlock {
+  title: string;
+  image?: (number | null) | Media;
+  layoutSelector?: ('background' | 'imageDown' | 'imageUp') | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'pageTitleBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArticlesBlock".
+ */
+export interface ArticlesBlock {
+  sectionTitle?: string | null;
+  articlesToShow?: number | null;
+  articles?:
+    | {
+        article?: (number | null) | Article;
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'articlesBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BimTeamProps".
+ */
+export interface BimTeamProps {
+  sectionTitle?: string | null;
+  people: (number | Person)[];
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'bimTeamBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people".
+ */
+export interface Person {
+  id: number;
+  name: string;
+  image: number | Media;
+  role?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -341,8 +373,8 @@ export interface PayloadLockedDocument {
         value: number | Eventi;
       } | null)
     | ({
-        relationTo: 'Articoli';
-        value: number | Articoli;
+        relationTo: 'articles';
+        value: number | Article;
       } | null)
     | ({
         relationTo: 'pages';
@@ -351,6 +383,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'quotes';
         value: number | Quote;
+      } | null)
+    | ({
+        relationTo: 'people';
+        value: number | Person;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -432,31 +468,23 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "Eventi_select".
  */
 export interface EventiSelect<T extends boolean = true> {
-  Titolo?: T;
-  Luogo?: T;
-  Data?: T;
-  'Link iscrizione'?: T;
-  Descrizione?: T;
-  'Altre info'?: T;
+  title?: T;
+  image?: T;
+  location?: T;
+  date?: T;
+  link?: T;
+  descrizione?: T;
+  otherInfo?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Articoli_select".
+ * via the `definition` "articles_select".
  */
-export interface ArticoliSelect<T extends boolean = true> {
-  Titolo?: T;
-  Textata?: T;
+export interface ArticlesSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
   'Data Evento'?: T;
   'Data Articolo'?: T;
   Link?: T;
@@ -464,15 +492,6 @@ export interface ArticoliSelect<T extends boolean = true> {
   'Altre info'?: T;
   updatedAt?: T;
   createdAt?: T;
-  url?: T;
-  thumbnailURL?: T;
-  filename?: T;
-  mimeType?: T;
-  filesize?: T;
-  width?: T;
-  height?: T;
-  focalX?: T;
-  focalY?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -486,30 +505,11 @@ export interface PagesSelect<T extends boolean = true> {
     | {
         hero?: T | HeroBlockSelect<T>;
         sectionWithMediaAndText?: T | SectionWithMediaAndTextSelect<T>;
-        carousel?:
-          | T
-          | {
-              title?: T;
-              events?: T;
-              id?: T;
-              blockName?: T;
-            };
-        quoteCard?:
-          | T
-          | {
-              quote?: T;
-              id?: T;
-              blockName?: T;
-            };
-        articleCard?:
-          | T
-          | {
-              title?: T;
-              description?: T;
-              article?: T;
-              id?: T;
-              blockName?: T;
-            };
+        carousel?: T | CarouselBlockSelect<T>;
+        quoteBlock?: T | QuoteBlockSelect<T>;
+        pageTitleBlock?: T | PageTitleBlockSelect<T>;
+        articlesBlock?: T | ArticlesBlockSelect<T>;
+        bimTeamBlock?: T | BimTeamPropsSelect<T>;
       };
   meta?:
     | T
@@ -556,12 +556,85 @@ export interface SectionWithMediaAndTextSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CarouselBlock_select".
+ */
+export interface CarouselBlockSelect<T extends boolean = true> {
+  title?: T;
+  events?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "QuoteBlock_select".
+ */
+export interface QuoteBlockSelect<T extends boolean = true> {
+  blockTitle?: T;
+  quotes?:
+    | T
+    | {
+        quote?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PageTitleBlock_select".
+ */
+export interface PageTitleBlockSelect<T extends boolean = true> {
+  title?: T;
+  image?: T;
+  layoutSelector?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "ArticlesBlock_select".
+ */
+export interface ArticlesBlockSelect<T extends boolean = true> {
+  sectionTitle?: T;
+  articlesToShow?: T;
+  articles?:
+    | T
+    | {
+        article?: T;
+        id?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "BimTeamProps_select".
+ */
+export interface BimTeamPropsSelect<T extends boolean = true> {
+  sectionTitle?: T;
+  people?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "quotes_select".
  */
 export interface QuotesSelect<T extends boolean = true> {
   content?: T;
   source?: T;
   article?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "people_select".
+ */
+export interface PeopleSelect<T extends boolean = true> {
+  name?: T;
+  image?: T;
+  role?: T;
   updatedAt?: T;
   createdAt?: T;
 }

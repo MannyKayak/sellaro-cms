@@ -1,7 +1,9 @@
-import ArticleCardComponent from '@/blocks/ArticleCard/Component'
+import ArticlesBlockComponent from '@/blocks/ArticlesBlock/Component'
+import BimTeamBlockComponent from '@/blocks/BimTeamBlock/Component'
 import CarouselBlock from '@/blocks/Carousel/Component'
 import HeroBlockComponent from '@/blocks/Hero/Component'
-import QuoteCard from '@/blocks/QuoteCard/Component'
+import PageTitleBlockComponent from '@/blocks/PageTitleBlock/Component'
+import QuoteBlockComponent from '@/blocks/QuotesBlock/Component'
 import SectionWithMediaAndTextComponent from '@/blocks/SectionTextAndImage/Component'
 import { Page } from '@/payload-types'
 import React, { Fragment } from 'react'
@@ -9,9 +11,11 @@ import React, { Fragment } from 'react'
 const blockComponents = {
   sectionWithMediaAndText: SectionWithMediaAndTextComponent,
   carousel: CarouselBlock,
-  quoteCard: QuoteCard,
-  articleCard: ArticleCardComponent,
   hero: HeroBlockComponent,
+  quoteBlock: QuoteBlockComponent,
+  pageTitleBlock: PageTitleBlockComponent,
+  articlesBlock: ArticlesBlockComponent,
+  bimTeamBlock: BimTeamBlockComponent,
 }
 
 export const RenderBlocks: React.FC<{ blocks: Page['layout'] }> = (props) => {
@@ -32,9 +36,11 @@ export const RenderBlocks: React.FC<{ blocks: Page['layout'] }> = (props) => {
                 </div>
               )
             }
+            return null
           }
         })}
       </Fragment>
     )
   }
+  return null
 }

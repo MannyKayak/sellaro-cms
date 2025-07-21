@@ -3,8 +3,10 @@ import type { CollectionConfig } from 'payload'
 import { CarouselBlock } from '@/blocks/Carousel/config'
 import { SectionWithMediaAndText } from '@/blocks/SectionTextAndImage/config'
 import { HeroBlock } from '@/blocks/Hero/config'
-import { QuoteCardBlock } from '@/blocks/QuoteCard/config'
-import { ArticleCardBlock } from '@/blocks/ArticleCard/config'
+import { QuoteBlock } from '@/blocks/QuotesBlock/config'
+import { PageTitleBlock } from '@/blocks/PageTitleBlock/config'
+import { ArticlesBlock } from '@/blocks/ArticlesBlock/config'
+import { BimTeamBlock } from '@/blocks/BimTeamBlock/config'
 
 export const Pages: CollectionConfig = {
   slug: 'pages',
@@ -37,7 +39,15 @@ export const Pages: CollectionConfig = {
       label: 'Contenuto della pagina',
       type: 'blocks',
       required: true,
-      blocks: [HeroBlock, SectionWithMediaAndText, CarouselBlock, QuoteCardBlock, ArticleCardBlock],
+      blocks: [
+        HeroBlock,
+        SectionWithMediaAndText,
+        CarouselBlock,
+        QuoteBlock,
+        PageTitleBlock,
+        ArticlesBlock,
+        BimTeamBlock,
+      ],
     },
     {
       name: 'meta',
