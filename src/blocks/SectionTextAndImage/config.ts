@@ -15,6 +15,11 @@ export const SectionWithMediaAndText: Block = {
       required: true,
     },
     {
+      name: 'reference',
+      label: 'Reference',
+      type: 'text',
+    },
+    {
       name: 'content',
       label: 'Contenuto',
       type: 'richText',

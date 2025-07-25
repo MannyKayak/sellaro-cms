@@ -14,6 +14,8 @@ import { Articles } from './collections/Articles'
 import { Pages } from './collections/Pages'
 import { Quotes } from './collections/Quotes'
 import { People } from './collections/People'
+import { Footer } from './globals/Footer/config'
+import { Tags } from './collections/Tags'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -25,7 +27,8 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media, Events, Articles, Pages, Quotes, People],
+  globals: [Footer],
+  collections: [Users, Media, Events, Articles, Pages, Quotes, People, Tags],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

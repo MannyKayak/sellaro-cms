@@ -16,10 +16,15 @@ export const CarouselBlock: Block = {
       required: false,
     },
     {
+      name: 'reference',
+      label: 'Reference',
+      type: 'text',
+    },
+    {
       name: 'events',
       label: 'Eventi da mostrare',
       type: 'relationship',
-      relationTo: 'Eventi',
+      relationTo: 'events',
       hasMany: true,
       required: true,
     },

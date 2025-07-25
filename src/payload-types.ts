@@ -69,11 +69,12 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    Eventi: Eventi;
+    events: Event;
     articles: Article;
     pages: Page;
     quotes: Quote;
     people: Person;
+    tags: Tag;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -82,11 +83,12 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    Eventi: EventiSelect<false> | EventiSelect<true>;
+    events: EventsSelect<false> | EventsSelect<true>;
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
     quotes: QuotesSelect<false> | QuotesSelect<true>;
     people: PeopleSelect<false> | PeopleSelect<true>;
+    tags: TagsSelect<false> | TagsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -94,8 +96,12 @@ export interface Config {
   db: {
     defaultIDType: number;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    footer: Footer;
+  };
+  globalsSelect: {
+    footer: FooterSelect<false> | FooterSelect<true>;
+  };
   locale: null;
   user: User & {
     collection: 'users';
@@ -161,17 +167,29 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Eventi".
+ * via the `definition` "events".
  */
-export interface Eventi {
+export interface Event {
   id: number;
   title: string;
-  image?: (number | null) | Media;
+  image: number | Media;
+  tag: (number | Tag)[];
   location: string;
   date: string;
-  link?: string | null;
-  descrizione: string;
+  link: string;
+  guests?: string | null;
+  description: string;
   otherInfo?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags".
+ */
+export interface Tag {
+  id: number;
+  name: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -183,11 +201,12 @@ export interface Article {
   id: number;
   title: string;
   image?: (number | null) | Media;
-  'Data Evento'?: string | null;
-  'Data Articolo'?: string | null;
-  Link?: string | null;
+  tag: (number | Tag)[];
+  'Data Articolo': string;
+  Link: string;
   Descrizione?: string | null;
-  'Altre info'?: string | null;
+  source: string;
+  author?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -243,6 +262,7 @@ export interface HeroBlock {
  */
 export interface SectionWithMediaAndText {
   title: string;
+  reference?: string | null;
   content: {
     root: {
       type: string;
@@ -270,7 +290,8 @@ export interface SectionWithMediaAndText {
  */
 export interface CarouselBlock {
   title?: string | null;
-  events: (number | Eventi)[];
+  reference?: string | null;
+  events: (number | Event)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'carousel';
@@ -281,6 +302,7 @@ export interface CarouselBlock {
  */
 export interface QuoteBlock {
   blockTitle?: string | null;
+  reference?: string | null;
   quotes: {
     quote?: (number | null) | Quote;
     id?: string | null;
@@ -307,8 +329,9 @@ export interface Quote {
  */
 export interface PageTitleBlock {
   title: string;
+  titleColor: 'black' | 'white' | 'teal-600';
   image?: (number | null) | Media;
-  layoutSelector?: ('background' | 'imageDown' | 'imageUp') | null;
+  layoutSelector: 'background' | 'imageDown' | 'imageUp';
   id?: string | null;
   blockName?: string | null;
   blockType: 'pageTitleBlock';
@@ -319,6 +342,7 @@ export interface PageTitleBlock {
  */
 export interface ArticlesBlock {
   sectionTitle?: string | null;
+  reference?: string | null;
   articlesToShow?: number | null;
   articles?:
     | {
@@ -336,6 +360,7 @@ export interface ArticlesBlock {
  */
 export interface BimTeamProps {
   sectionTitle?: string | null;
+  reference?: string | null;
   people: (number | Person)[];
   id?: string | null;
   blockName?: string | null;
@@ -369,8 +394,8 @@ export interface PayloadLockedDocument {
         value: number | Media;
       } | null)
     | ({
-        relationTo: 'Eventi';
-        value: number | Eventi;
+        relationTo: 'events';
+        value: number | Event;
       } | null)
     | ({
         relationTo: 'articles';
@@ -387,6 +412,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'people';
         value: number | Person;
+      } | null)
+    | ({
+        relationTo: 'tags';
+        value: number | Tag;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -465,15 +494,17 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "Eventi_select".
+ * via the `definition` "events_select".
  */
-export interface EventiSelect<T extends boolean = true> {
+export interface EventsSelect<T extends boolean = true> {
   title?: T;
   image?: T;
+  tag?: T;
   location?: T;
   date?: T;
   link?: T;
-  descrizione?: T;
+  guests?: T;
+  description?: T;
   otherInfo?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -485,11 +516,12 @@ export interface EventiSelect<T extends boolean = true> {
 export interface ArticlesSelect<T extends boolean = true> {
   title?: T;
   image?: T;
-  'Data Evento'?: T;
+  tag?: T;
   'Data Articolo'?: T;
   Link?: T;
   Descrizione?: T;
-  'Altre info'?: T;
+  source?: T;
+  author?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -548,6 +580,7 @@ export interface HeroBlockSelect {
  */
 export interface SectionWithMediaAndTextSelect<T extends boolean = true> {
   title?: T;
+  reference?: T;
   content?: T;
   image?: T;
   layout?: T;
@@ -560,6 +593,7 @@ export interface SectionWithMediaAndTextSelect<T extends boolean = true> {
  */
 export interface CarouselBlockSelect<T extends boolean = true> {
   title?: T;
+  reference?: T;
   events?: T;
   id?: T;
   blockName?: T;
@@ -570,6 +604,7 @@ export interface CarouselBlockSelect<T extends boolean = true> {
  */
 export interface QuoteBlockSelect<T extends boolean = true> {
   blockTitle?: T;
+  reference?: T;
   quotes?:
     | T
     | {
@@ -585,6 +620,7 @@ export interface QuoteBlockSelect<T extends boolean = true> {
  */
 export interface PageTitleBlockSelect<T extends boolean = true> {
   title?: T;
+  titleColor?: T;
   image?: T;
   layoutSelector?: T;
   id?: T;
@@ -596,6 +632,7 @@ export interface PageTitleBlockSelect<T extends boolean = true> {
  */
 export interface ArticlesBlockSelect<T extends boolean = true> {
   sectionTitle?: T;
+  reference?: T;
   articlesToShow?: T;
   articles?:
     | T
@@ -612,6 +649,7 @@ export interface ArticlesBlockSelect<T extends boolean = true> {
  */
 export interface BimTeamPropsSelect<T extends boolean = true> {
   sectionTitle?: T;
+  reference?: T;
   people?: T;
   id?: T;
   blockName?: T;
@@ -635,6 +673,15 @@ export interface PeopleSelect<T extends boolean = true> {
   name?: T;
   image?: T;
   role?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "tags_select".
+ */
+export interface TagsSelect<T extends boolean = true> {
+  name?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -669,6 +716,44 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface Footer {
+  id: number;
+  title: string;
+  description?: string | null;
+  mail: string;
+  socialLinks?:
+    | {
+        socialName?: ('Linkedin' | 'Instagram' | 'Facebook' | 'Altro') | null;
+        socialLink?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  mail?: T;
+  socialLinks?:
+    | T
+    | {
+        socialName?: T;
+        socialLink?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

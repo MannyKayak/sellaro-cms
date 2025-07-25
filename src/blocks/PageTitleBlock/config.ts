@@ -15,6 +15,27 @@ export const PageTitleBlock: Block = {
       required: true,
     },
     {
+      name: 'titleColor',
+      label: 'Colore del titolo',
+      type: 'radio',
+      required: true,
+      defaultValue: 'black',
+      options: [
+        {
+          value: 'black',
+          label: 'Nero',
+        },
+        {
+          value: 'white',
+          label: 'Bianco',
+        },
+        {
+          value: 'teal-600',
+          label: 'Verde BIM(K)now',
+        },
+      ],
+    },
+    {
       name: 'image',
       label: 'Immagine',
       type: 'upload',
@@ -23,6 +44,8 @@ export const PageTitleBlock: Block = {
     {
       name: 'layoutSelector',
       type: 'radio',
+      required: true,
+      defaultValue: 'background',
       options: [
         {
           label: 'Usa immagine come background',

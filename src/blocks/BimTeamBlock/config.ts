@@ -14,6 +14,11 @@ export const BimTeamBlock: Block = {
       type: 'text',
     },
     {
+      name: 'reference',
+      label: 'Reference',
+      type: 'text',
+    },
+    {
       name: 'people',
       label: 'Profili persone',
       type: 'relationship',

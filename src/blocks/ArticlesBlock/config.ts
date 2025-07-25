@@ -11,6 +11,11 @@ export const ArticlesBlock: Block = {
       label: 'Titolo',
     },
     {
+      name: 'reference',
+      label: 'Reference',
+      type: 'text',
+    },
+    {
       name: 'articlesToShow',
       label: 'Numero articoli da mostrare',
       type: 'number',

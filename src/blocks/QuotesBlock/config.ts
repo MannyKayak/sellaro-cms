@@ -14,6 +14,11 @@ export const QuoteBlock: Block = {
       type: 'text',
     },
     {
+      name: 'reference',
+      label: 'Reference',
+      type: 'text',
+    },
+    {
       name: 'quotes',
       label: 'Citazioni',
       type: 'array',

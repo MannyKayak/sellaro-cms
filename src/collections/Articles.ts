@@ -2,6 +2,9 @@ import type { CollectionConfig } from 'payload'
 
 export const Articles: CollectionConfig = {
   slug: 'articles',
+  admin: {
+    useAsTitle: 'title',
+  },
   labels: {
     singular: 'Articolo',
     plural: 'Articoli',
@@ -20,24 +23,37 @@ export const Articles: CollectionConfig = {
       relationTo: 'media',
     },
     {
-      name: 'Data Evento',
-      type: 'date',
+      name: 'tag',
+      label: 'Tag',
+      type: 'relationship',
+      required: true,
+      relationTo: 'tags',
+      hasMany: true,
     },
     {
       name: 'Data Articolo',
       type: 'date',
+      required: true,
     },
     {
       name: 'Link',
       type: 'text',
+      required: true,
     },
     {
       name: 'Descrizione',
       type: 'textarea',
     },
     {
-      name: 'Altre info',
-      type: 'textarea',
+      name: 'source',
+      label: 'Testata',
+      type: 'text',
+      required: true,
+    },
+    {
+      name: 'author',
+      label: 'Autore',
+      type: 'text',
     },
   ],
 }
