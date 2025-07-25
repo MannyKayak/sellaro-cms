@@ -165,3 +165,17 @@ svg {
     }
   }
 }
+
+.swiper-pagination-bullet {
+  background-color: #99f6e4; /* teal-200 */
+  width: 12px;
+  height: 12px;
+  border-radius: 9999px;
+  opacity: 1;
+  transition: all 0.2s ease-in-out;
+}
+
+.swiper-pagination-bullet-active {
+  background-color: #0d9488; /* teal-600 */
+  transform: scale(1.25);
+}
