@@ -10,7 +10,7 @@ export default function GridContainerComponent({ title, children }: Props) {
     <section className="py-12 px-4 max-w-7xl mx-auto">
       {title && (
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900">{title}</h2>
+          <h2 className="text-3xl font-bold text-teal-600">{title}</h2>
         </div>
       )}
 

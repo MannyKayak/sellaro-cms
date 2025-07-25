@@ -207,6 +207,7 @@ export interface Article {
   Descrizione?: string | null;
   source: string;
   author?: string | null;
+  eventRelated?: (number | Event)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -332,6 +333,22 @@ export interface PageTitleBlock {
   titleColor: 'black' | 'white' | 'teal-600';
   image?: (number | null) | Media;
   layoutSelector: 'background' | 'imageDown' | 'imageUp';
+  paragraphTitle?: string | null;
+  paragraph?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'pageTitleBlock';
@@ -522,6 +539,7 @@ export interface ArticlesSelect<T extends boolean = true> {
   Descrizione?: T;
   source?: T;
   author?: T;
+  eventRelated?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -623,6 +641,8 @@ export interface PageTitleBlockSelect<T extends boolean = true> {
   titleColor?: T;
   image?: T;
   layoutSelector?: T;
+  paragraphTitle?: T;
+  paragraph?: T;
   id?: T;
   blockName?: T;
 }

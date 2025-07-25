@@ -55,5 +55,12 @@ export const Articles: CollectionConfig = {
       label: 'Autore',
       type: 'text',
     },
+    {
+      name: 'eventRelated',
+      label: "Eventi legati all'articolo",
+      type: 'relationship',
+      relationTo: 'events',
+      hasMany: true,
+    },
   ],
 }

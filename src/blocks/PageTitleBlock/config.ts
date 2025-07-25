@@ -61,5 +61,15 @@ export const PageTitleBlock: Block = {
         },
       ],
     },
+    {
+      name: 'paragraphTitle',
+      type: 'text',
+      label: 'Titolo del paragrafo',
+    },
+    {
+      name: 'paragraph',
+      type: 'richText',
+      label: 'Paragrafo sotto il titolo',
+    },
   ],
 }

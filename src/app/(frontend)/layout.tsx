@@ -21,7 +21,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
 
   return (
     <html lang="en" className={`${klavika.variable} antialiased`}>
-      <body className="bg-gradient-to-t from-slate-200 from-20% to-white to-90%">
+      <body className="bg-white">
         <main>{children}</main>
         {footerReq && <Footer {...footerReq} />}
       </body>

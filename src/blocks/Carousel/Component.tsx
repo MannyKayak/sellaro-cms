@@ -14,7 +14,7 @@ export default function CarouselBlock(block: CarouselType) {
   const { title, events } = block
 
   return (
-    <section className="py-12 px-4 bg-white relative">
+    <section className="py-12 px-6 bg-white relative">
       {title && <h2 className="text-3xl font-bold mb-6 text-center text-teal-600">{title}</h2>}
 
       {/* Frecce custom */}
@@ -26,7 +26,7 @@ export default function CarouselBlock(block: CarouselType) {
       </button>
 
       <Swiper
-        spaceBetween={20}
+        spaceBetween={2}
         slidesPerView={1}
         navigation={{
           nextEl: '.custom-next',
@@ -37,20 +37,29 @@ export default function CarouselBlock(block: CarouselType) {
         breakpoints={{
           640: { slidesPerView: 1 },
           768: { slidesPerView: 2 },
-          1024: { slidesPerView: 3 },
+          1024: { slidesPerView: 4 },
         }}
-        className="px-8" // spazio laterale per evitare che le frecce coprano il contenuto
+        className="" // ✅ nessun padding laterale
+        style={
+          {
+            '--swiper-pagination-color': '#0D9488',
+            '--swiper-pagination-inactive-color': '#99F6E4',
+            '--swiper-pagination-bullet-inactive-opacity': '0.6',
+            '--swiper-pagination-bullet-size': '12px',
+            '--swiper-pagination-bullet-horizontal-gap': '6px',
+          } as React.CSSProperties
+        }
       >
-        {events.map((event) => {
-          if (event && typeof event !== 'number') {
-            return (
-              <SwiperSlide key={event.id}>
-                <EventCard event={event} />
-              </SwiperSlide>
-            )
-          }
-          return null
-        })}
+        {events.map((event) =>
+          event && typeof event !== 'number' ? (
+            <SwiperSlide
+              key={event.id}
+              className="flex justify-center items-center pb-8 pt-2 overflow-visible" // ✅ niente mx
+            >
+              <EventCard event={event} />
+            </SwiperSlide>
+          ) : null,
+        )}
       </Swiper>
     </section>
   )

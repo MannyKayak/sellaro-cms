@@ -19,12 +19,15 @@ export default function BimTeamBlockComponent(block: BimTeamProps) {
       )}
 
       {/* Griglia delle persone */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-10 justify-center">
+      <div className="container mx-auto flex flex-wrap justify-center gap-5">
         {people.map((person, index) => {
-          if (person && typeof person !== 'number') {
-            return <PersonCard key={index} {...person} />
-          }
-          return null
+          const baseWidth =
+            'w-[calc(50%-10px)] sm:w-[calc(33.333%-13.333px)] md:w-[calc(25%-15px)] lg:w-[calc(20%-16px)]'
+          return (
+            <div key={index} className={baseWidth}>
+              {person && typeof person !== 'number' && <PersonCard {...person} />}
+            </div>
+          )
         })}
       </div>
     </section>

@@ -1,6 +1,8 @@
 import { ArticleCard } from '@/components/ArticleCard'
 import GridContainerComponent from '@/components/GridComponent'
 import { ArticlesBlock, Article } from '@/payload-types'
+import { Newspaper } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 export default function ArticlesBlockComponent(props: ArticlesBlock) {
@@ -16,12 +18,21 @@ export default function ArticlesBlockComponent(props: ArticlesBlock) {
     : []
 
   return (
-    <div className="bg-white">
+    <div className="bg-white mx-6 mb-6">
       <GridContainerComponent title={sectionTitle || ''}>
         {validArticles.map((a, i) => (
           <ArticleCard key={i} article={a.article} />
         ))}
       </GridContainerComponent>
+      <div className="flex items-center justify-center md:justify-end mt-4 mr-4">
+        <Link
+          href={'/articles'}
+          className="flex gap-2 text-teal-600 items-center hover:text-teal-800 text-xl"
+        >
+          <Newspaper size={20} className="text-teal-600 hover:text-teal-800" />
+          Tutti gli articoli
+        </Link>
+      </div>
     </div>
   )
 }
