@@ -5,6 +5,7 @@ import klavika from '@/font/klavika'
 import Footer from '@/globals/Footer/Component'
 import { getPayload } from 'payload'
 import config from '@payload-config'
+import Navbar from '@/components/Navbar'
 
 export const metadata = {
   description: 'Andrea Vittorio Sellaro Bim Manager portfolio',
@@ -19,9 +20,14 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     slug: 'footer',
   })
 
+  const pages = await payload.find({
+    collection: 'pages',
+  })
+
   return (
     <html lang="en" className={`${klavika.variable} antialiased`}>
       <body className="bg-white">
+        <Navbar pages={pages.docs} />
         <main>{children}</main>
         {footerReq && <Footer {...footerReq} />}
       </body>
