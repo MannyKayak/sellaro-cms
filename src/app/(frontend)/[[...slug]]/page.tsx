@@ -3,6 +3,7 @@ import config from '@payload-config'
 import { notFound } from 'next/navigation'
 import { Page } from '@/payload-types'
 import { RenderBlocks } from '@/components/RenderBlocks'
+
 type Params = {
   slug?: string[]
 }

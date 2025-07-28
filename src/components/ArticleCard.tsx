@@ -23,10 +23,10 @@ export const ArticleCard: React.FC<Props> = ({ article }) => {
   const link = article.Link
 
   return (
-    <Link href={link} target="_blank" rel="noopener noreferrer" className="block w-full">
-      <div className="bg-neutral-100 border border-teal-600 shadow-gray-600 rounded-xl overflow-hidden shadow-md hover:shadow-lg hover:shadow-teal-600 transition duration-200 flex flex-col w-full">
-        {imageUrl && (
-          <div className="relative w-full h-48 sm:h-52">
+    <Link href={link} target="_blank" rel="noopener noreferrer" className="block w-full h-full">
+      <div className="bg-neutral-100 border border-teal-600 shadow-gray-600 rounded-xl overflow-hidden shadow-md hover:shadow-lg hover:shadow-teal-600 transition duration-200 flex flex-col w-full h-full">
+        <div className="relative w-full h-48 bg-gray-50">
+          {imageUrl && (
             <Image
               src={imageUrl}
               alt={article.title || 'Articolo'}
@@ -34,8 +34,8 @@ export const ArticleCard: React.FC<Props> = ({ article }) => {
               className="object-cover"
               sizes="(max-width: 640px) 100vw, 480px"
             />
-          </div>
-        )}
+          )}
+        </div>
 
         <div className="p-4 sm:p-5 flex flex-col gap-1.5">
           <div className="flex justify-between text-xs text-gray-600 italic">
