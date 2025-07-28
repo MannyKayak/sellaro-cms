@@ -8,7 +8,8 @@ import 'swiper/css/pagination'
 import { Navigation, Pagination } from 'swiper/modules'
 import { CarouselBlock as CarouselType } from '@/payload-types'
 import { EventCard } from '@/components/EventCard'
-import { ChevronLeft, ChevronRight } from 'lucide-react'
+import { CalendarDays, ChevronLeft, ChevronRight, Newspaper } from 'lucide-react'
+import Link from 'next/link'
 
 export default function CarouselBlock(block: CarouselType) {
   const { title, events } = block
@@ -61,6 +62,15 @@ export default function CarouselBlock(block: CarouselType) {
           ) : null,
         )}
       </Swiper>
+      <div className="flex items-center justify-center md:justify-end mt-4 mr-4">
+        <Link
+          href={'/events'}
+          className="flex gap-2 text-teal-600 items-center hover:text-teal-800 text-xl"
+        >
+          <CalendarDays size={20} className="text-teal-600 hover:text-teal-800" />
+          Tutti gli eventi
+        </Link>
+      </div>
     </section>
   )
 }

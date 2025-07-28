@@ -16,9 +16,9 @@ export const EventCard: React.FC<{ event: Event }> = ({ event }) => {
 
   return (
     <Link
-      href="/"
+      href={`/events/${event.id}`}
       aria-label={`Vai alla pagina dell'evento: ${event.title}`}
-      className="group block rounded-lg overflow-hidden shadow-lg transition-all duration-300 max-w-[260px] 
+      className="group block rounded-lg overflow-hidden shadow-lg transition-all duration-300 w-[260px] 
                  transform hover:scale-[1.025] hover:shadow-xl bg-white shadow-black-60"
     >
       {/* Immagine */}

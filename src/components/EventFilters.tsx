@@ -2,8 +2,8 @@
 
 import React from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import { FilterParams } from './page'
 import { Tag } from '@/payload-types'
+import { EventFilterParams } from '@/app/(frontend)/events/page'
 
 type Props = {
   options: {
@@ -11,7 +11,7 @@ type Props = {
     months: number[]
     topics: Tag[]
   }
-  currentFilters: FilterParams
+  currentFilters: EventFilterParams
   className?: string
 }
 
@@ -30,11 +30,11 @@ const monthNames = [
   'Dicembre',
 ]
 
-export default function ArticleFilters({ options, currentFilters, className }: Props) {
+export default function EventFilters({ options, currentFilters, className }: Props) {
   const router = useRouter()
   const pathname = usePathname()
 
-  const updateFilters = (newFilters: Partial<FilterParams>) => {
+  const updateFilters = (newFilters: Partial<EventFilterParams>) => {
     const params = new URLSearchParams()
 
     const filters = { ...currentFilters, ...newFilters }

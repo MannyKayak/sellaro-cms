@@ -1,18 +1,19 @@
 import React from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
-import { ArticleCard } from '@/components/ArticleCard'
-import ArticleFilters from '../../../components/ArticleFilters'
-import { Article } from '@/payload-types'
+import { Event } from '@/payload-types'
+import { EventCard } from '@/components/EventCard'
+import { format } from 'date-fns'
+import EventFilters from '@/components/EventFilters'
 
-export type FilterParams = {
+export type EventFilterParams = {
   year?: string
   month?: string
   topic?: string
 }
 
-type ArticleQuery = {
-  collection: 'articles'
+type EventQuery = {
+  collection: 'events'
   where: {
     [key: string]: {
       equals?: unknown
@@ -22,23 +23,22 @@ type ArticleQuery = {
   limit?: number
 }
 
-async function getFilteredArticles(filters: FilterParams) {
+async function getFilteredEvents(filters: EventFilterParams) {
   const payload = await getPayload({ config })
 
-  // Build query based on filters
-  const query: ArticleQuery = {
-    collection: 'articles',
+  const query: EventQuery = {
+    collection: 'events',
     where: {},
   }
 
   if (filters.year) {
-    query.where['Data Articolo'] = {
+    query.where['date'] = {
       like: `${filters.year}-%`,
     }
   }
 
   if (filters.month && filters.year) {
-    query.where['Data Articolo'] = {
+    query.where['date'] = {
       like: `${filters.year}-${filters.month}-%`,
     }
   }
@@ -49,20 +49,19 @@ async function getFilteredArticles(filters: FilterParams) {
     }
   }
 
-  const articles = await payload.find(query)
-  return articles.docs as Article[]
+  const events = await payload.find(query)
+  return events.docs as Event[]
 }
 
 async function getFilterOptions() {
   const payload = await getPayload({ config })
-  const articles = await payload.find({
-    collection: 'articles',
+  const events = await payload.find({
+    collection: 'events',
     limit: 1000,
   })
 
-  // Extract unique years and months from articles
-  const dates = articles.docs.map((article) => {
-    const date = new Date(article['Data Articolo'])
+  const dates = events.docs.map((event) => {
+    const date = new Date(event.date)
     return {
       year: date.getFullYear(),
       month: date.getMonth() + 1,
@@ -72,7 +71,6 @@ async function getFilterOptions() {
   const years = [...new Set(dates.map((d) => d.year))].sort((a, b) => b - a)
   const months = [...new Set(dates.map((d) => d.month))].sort((a, b) => a - b)
 
-  // Get all unique topics
   const topics = await payload.find({
     collection: 'tags',
   })
@@ -84,19 +82,19 @@ async function getFilterOptions() {
   }
 }
 
-export default async function ArticlesPage({
+export default async function EventsPage({
   searchParams,
 }: {
   searchParams: { [key: string]: string | undefined }
 }) {
-  const filters: FilterParams = {
+  const filters: EventFilterParams = {
     year: searchParams.year,
     month: searchParams.month,
     topic: searchParams.topic,
   }
 
-  const [articles, filterOptions] = await Promise.all([
-    getFilteredArticles(filters),
+  const [events, filterOptions] = await Promise.all([
+    getFilteredEvents(filters),
     getFilterOptions(),
   ])
 
@@ -104,22 +102,22 @@ export default async function ArticlesPage({
     <div className="min-h-screen bg-white">
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-extrabold text-teal-600 mb-4">Tutti gli articoli</h1>
+          <h1 className="text-4xl font-extrabold text-teal-600 mb-4">Tutti gli eventi</h1>
           <p className="text-lg text-gray-800">
-            Qui troverai tutti gli articoli che sono usciti online.
+            Esplora gli eventi passati e futuri organizzati dalla community.
           </p>
         </div>
 
-        <ArticleFilters
-          options={filterOptions ? filterOptions : { years: [], months: [], topics: [] }}
+        <EventFilters
+          options={filterOptions}
           currentFilters={filters}
           className="justify-center max-w-4xl mx-auto mb-12"
         />
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 max-w-7xl mx-auto">
-          {articles.map((article) => (
-            <div key={article.id} className="flex">
-              <ArticleCard article={article} />
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-7xl mx-auto">
+          {events.map((event) => (
+            <div key={event.id} className="flex justify-center">
+              <EventCard event={event} />
             </div>
           ))}
         </div>
