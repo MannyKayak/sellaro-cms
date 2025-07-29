@@ -27,6 +27,9 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
+  routes: {
+    admin: '/cms-panel-22070826',
+  },
   globals: [Footer],
   collections: [Users, Media, Events, Articles, Pages, Quotes, People, Tags],
   editor: lexicalEditor(),
