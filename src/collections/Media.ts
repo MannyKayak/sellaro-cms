@@ -14,7 +14,7 @@ export const Media: CollectionConfig = {
   ],
   upload: {
     formatOptions: {
-      format: 'png',
+      format: 'webp',
     },
   },
 }

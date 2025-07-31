@@ -94,7 +94,7 @@ export interface Config {
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
   };
   db: {
-    defaultIDType: number;
+    defaultIDType: string;
   };
   globals: {
     footer: Footer;
@@ -134,7 +134,7 @@ export interface UserAuthOperations {
  * via the `definition` "users".
  */
 export interface User {
-  id: number;
+  id: string;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -151,7 +151,7 @@ export interface User {
  * via the `definition` "media".
  */
 export interface Media {
-  id: number;
+  id: string;
   alt: string;
   updatedAt: string;
   createdAt: string;
@@ -170,10 +170,10 @@ export interface Media {
  * via the `definition` "events".
  */
 export interface Event {
-  id: number;
+  id: string;
   title: string;
-  image: number | Media;
-  tag: (number | Tag)[];
+  image: string | Media;
+  tag: (string | Tag)[];
   location: string;
   date: string;
   link: string;
@@ -188,7 +188,7 @@ export interface Event {
  * via the `definition` "tags".
  */
 export interface Tag {
-  id: number;
+  id: string;
   name: string;
   updatedAt: string;
   createdAt: string;
@@ -198,16 +198,16 @@ export interface Tag {
  * via the `definition` "articles".
  */
 export interface Article {
-  id: number;
+  id: string;
   title: string;
-  image?: (number | null) | Media;
-  tag: (number | Tag)[];
+  image?: (string | null) | Media;
+  tag: (string | Tag)[];
   'Data Articolo': string;
   Link: string;
   Descrizione?: string | null;
   source: string;
   author?: string | null;
-  eventRelated?: (number | Event)[] | null;
+  eventRelated?: (string | Event)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -216,7 +216,7 @@ export interface Article {
  * via the `definition` "pages".
  */
 export interface Page {
-  id: number;
+  id: string;
   title: string;
   /**
    * Es: home, chi-siamo, contatti...
@@ -252,7 +252,7 @@ export interface HeroBlock {
     label?: string | null;
     url?: string | null;
   };
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
@@ -279,7 +279,7 @@ export interface SectionWithMediaAndText {
     };
     [k: string]: unknown;
   };
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   layout?: ('right' | 'left') | null;
   id?: string | null;
   blockName?: string | null;
@@ -292,7 +292,7 @@ export interface SectionWithMediaAndText {
 export interface CarouselBlock {
   title?: string | null;
   reference?: string | null;
-  events: (number | Event)[];
+  events: (string | Event)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'carousel';
@@ -305,7 +305,7 @@ export interface QuoteBlock {
   blockTitle?: string | null;
   reference?: string | null;
   quotes: {
-    quote?: (number | null) | Quote;
+    quote?: (string | null) | Quote;
     id?: string | null;
   }[];
   id?: string | null;
@@ -317,7 +317,7 @@ export interface QuoteBlock {
  * via the `definition` "quotes".
  */
 export interface Quote {
-  id: number;
+  id: string;
   content: string;
   source: string;
   article?: string | null;
@@ -331,7 +331,7 @@ export interface Quote {
 export interface PageTitleBlock {
   title: string;
   titleColor: 'black' | 'white' | 'teal-600';
-  image?: (number | null) | Media;
+  image?: (string | null) | Media;
   layoutSelector: 'background' | 'imageDown' | 'imageUp';
   paragraphTitle?: string | null;
   paragraph?: {
@@ -363,7 +363,7 @@ export interface ArticlesBlock {
   articlesToShow?: number | null;
   articles?:
     | {
-        article?: (number | null) | Article;
+        article?: (string | null) | Article;
         id?: string | null;
       }[]
     | null;
@@ -378,7 +378,7 @@ export interface ArticlesBlock {
 export interface BimTeamProps {
   sectionTitle?: string | null;
   reference?: string | null;
-  people: (number | Person)[];
+  people: (string | Person)[];
   id?: string | null;
   blockName?: string | null;
   blockType: 'bimTeamBlock';
@@ -388,9 +388,9 @@ export interface BimTeamProps {
  * via the `definition` "people".
  */
 export interface Person {
-  id: number;
+  id: string;
   name: string;
-  image: number | Media;
+  image: string | Media;
   role?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -400,44 +400,44 @@ export interface Person {
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
-  id: number;
+  id: string;
   document?:
     | ({
         relationTo: 'users';
-        value: number | User;
+        value: string | User;
       } | null)
     | ({
         relationTo: 'media';
-        value: number | Media;
+        value: string | Media;
       } | null)
     | ({
         relationTo: 'events';
-        value: number | Event;
+        value: string | Event;
       } | null)
     | ({
         relationTo: 'articles';
-        value: number | Article;
+        value: string | Article;
       } | null)
     | ({
         relationTo: 'pages';
-        value: number | Page;
+        value: string | Page;
       } | null)
     | ({
         relationTo: 'quotes';
-        value: number | Quote;
+        value: string | Quote;
       } | null)
     | ({
         relationTo: 'people';
-        value: number | Person;
+        value: string | Person;
       } | null)
     | ({
         relationTo: 'tags';
-        value: number | Tag;
+        value: string | Tag;
       } | null);
   globalSlug?: string | null;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   updatedAt: string;
   createdAt: string;
@@ -447,10 +447,10 @@ export interface PayloadLockedDocument {
  * via the `definition` "payload-preferences".
  */
 export interface PayloadPreference {
-  id: number;
+  id: string;
   user: {
     relationTo: 'users';
-    value: number | User;
+    value: string | User;
   };
   key?: string | null;
   value?:
@@ -470,7 +470,7 @@ export interface PayloadPreference {
  * via the `definition` "payload-migrations".
  */
 export interface PayloadMigration {
-  id: number;
+  id: string;
   name?: string | null;
   batch?: number | null;
   updatedAt: string;
@@ -742,7 +742,7 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  * via the `definition` "footer".
  */
 export interface Footer {
-  id: number;
+  id: string;
   title: string;
   description?: string | null;
   mail: string;
