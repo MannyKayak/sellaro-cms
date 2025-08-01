@@ -1,6 +1,5 @@
-import React from 'react'
 import './styles.css'
-
+import React from 'react'
 import klavika from '@/font/klavika'
 import Footer from '@/globals/Footer/Component'
 import { getPayload } from 'payload'
@@ -9,6 +8,9 @@ import Navbar from '@/components/Navbar'
 
 export const metadata = {
   description: 'Andrea Vittorio Sellaro Bim Manager portfolio',
+  icons: {
+    icon: '/favicon.ico',
+  },
   title: 'Vittorio Andrea Sellaro Portfolio',
 }
 
