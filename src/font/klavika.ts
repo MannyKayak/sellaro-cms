@@ -1,7 +1,7 @@
 import localFont from 'next/font/local'
 
 const klavika = localFont({
-  src: './Klavika/klavika.otf',
+  src: './klavika/klavika.otf',
   variable: '--font-klavika',
   display: 'swap',
   weight: '400',
