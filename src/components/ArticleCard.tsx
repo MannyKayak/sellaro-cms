@@ -66,7 +66,7 @@ export const ArticleCard: React.FC<Props> = ({ article }) => {
                       key={idx}
                       className="bg-teal-600 text-xs px-2 py-0.5 rounded-full text-gray-100"
                     >
-                      #{tag.name}
+                      #{typeof tag !== 'string' ? tag.name : ''}
                     </span>
                   )
                 }

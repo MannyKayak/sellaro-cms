@@ -31,7 +31,7 @@ export const RenderBlocks: React.FC<{ blocks: Page['layout'] }> = (props) => {
             if (Block) {
               return (
                 <div key={i}>
-                  {/*@ts-expect-error*/}
+                  {/* @ts-expect-error rendering dynamic block type not supported by type system*/}
                   <Block {...block} />
                 </div>
               )

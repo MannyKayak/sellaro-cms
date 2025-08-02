@@ -8,7 +8,7 @@ import 'swiper/css/pagination'
 import { Navigation, Pagination } from 'swiper/modules'
 import { CarouselBlock as CarouselType } from '@/payload-types'
 import { EventCard } from '@/components/EventCard'
-import { CalendarDays, ChevronLeft, ChevronRight, Newspaper } from 'lucide-react'
+import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
 export default function CarouselBlock(block: CarouselType) {
@@ -52,10 +52,10 @@ export default function CarouselBlock(block: CarouselType) {
         }
       >
         {events.map((event) =>
-          event && typeof event !== 'number' ? (
+          event && typeof event !== 'number' && typeof event !== 'string' ? (
             <SwiperSlide
               key={event.id}
-              className="flex justify-center items-center pb-8 pt-2 overflow-visible" // ✅ niente mx
+              className="flex justify-center items-center pb-8 pt-2 overflow-visible"
             >
               <EventCard event={event} />
             </SwiperSlide>

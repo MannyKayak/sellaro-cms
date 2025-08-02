@@ -2,9 +2,14 @@
 import React from 'react'
 import Image from 'next/image'
 import CtaButton from '@/components/CtaButton'
-import { HeroBlock } from '@/payload-types'
+import { HeroBlockProps } from '@/payload-types'
 
-export default function HeroBlockComponent({ title, ctaPrimary, ctaSecondary, image }: HeroBlock) {
+export default function HeroBlockComponent({
+  title,
+  ctaPrimary,
+  ctaSecondary,
+  image,
+}: HeroBlockProps) {
   // Determina l'URL corretto
   let imageUrl: string | null = null
   if (typeof image === 'string') {

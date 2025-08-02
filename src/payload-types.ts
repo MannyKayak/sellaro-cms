@@ -223,7 +223,7 @@ export interface Page {
    */
   slug: string;
   layout: (
-    | HeroBlock
+    | HeroBlockProps
     | SectionWithMediaAndText
     | CarouselBlock
     | QuoteBlock
@@ -240,9 +240,9 @@ export interface Page {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` " HeroBlock".
+ * via the `definition` "HeroBlockProps".
  */
-export interface HeroBlock {
+export interface HeroBlockProps {
   title: string;
   ctaPrimary?: {
     label?: string | null;
@@ -553,7 +553,7 @@ export interface PagesSelect<T extends boolean = true> {
   layout?:
     | T
     | {
-        hero?: T | HeroBlockSelect<T>;
+        hero?: T | HeroBlockPropsSelect<T>;
         sectionWithMediaAndText?: T | SectionWithMediaAndTextSelect<T>;
         carousel?: T | CarouselBlockSelect<T>;
         quoteBlock?: T | QuoteBlockSelect<T>;
@@ -572,25 +572,25 @@ export interface PagesSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` " HeroBlock_select".
+ * via the `definition` "HeroBlockProps_select".
  */
-export interface HeroBlockSelect {
-  title?: boolean;
+export interface HeroBlockPropsSelect<T extends boolean = true> {
+  title?: T;
   ctaPrimary?:
-    | boolean
+    | T
     | {
-        label?: boolean;
-        url?: boolean;
+        label?: T;
+        url?: T;
       };
   ctaSecondary?:
-    | boolean
+    | T
     | {
-        label?: boolean;
-        url?: boolean;
+        label?: T;
+        url?: T;
       };
-  image?: boolean;
-  id?: boolean;
-  blockName?: boolean;
+  image?: T;
+  id?: T;
+  blockName?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

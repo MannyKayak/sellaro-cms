@@ -6,7 +6,7 @@ export const HeroBlock: Block = {
     singular: 'Hero Section',
     plural: 'Hero Sections',
   },
-  interfaceName: ' HeroBlock',
+  interfaceName: 'HeroBlockProps',
   fields: [
     {
       name: 'title',

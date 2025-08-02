@@ -10,19 +10,17 @@ import Link from 'next/link'
 import { ArticleCard } from '@/components/ArticleCard'
 import GridContainerComponent from '@/components/GridComponent'
 
-type Props = {
-  params: {
-    eventId: string
-  }
-}
+export default async function EventPage({ params }: { params: Promise<{ eventId?: string }> }) {
+  const { eventId } = await params
 
-export default async function EventPage({ params }: Props) {
+  if (!eventId) return notFound()
+
   const payload = await getPayload({ config })
 
   const event = await payload
     .findByID({
       collection: 'events',
-      id: params.eventId,
+      id: eventId,
     })
     .catch(() => null)
 
@@ -78,7 +76,7 @@ export default async function EventPage({ params }: Props) {
               <h3 className="text-lg font-semibold text-gray-800 mb-2">Tag</h3>
               <div className="flex flex-wrap gap-2">
                 {tag.map((t) => {
-                  if (typeof t === 'number') return null
+                  if (typeof t === 'number' || typeof t === 'string') return null
                   return (
                     <span
                       key={t.id}
@@ -103,7 +101,7 @@ export default async function EventPage({ params }: Props) {
                 rel="noopener noreferrer"
                 className="inline-block bg-teal-600 hover:bg-teal-700 text-white font-semibold py-2 px-4 rounded-md transition"
               >
-                Iscriviti all’evento
+                Iscriviti all&apos;evento
               </Link>
             </div>
           )}

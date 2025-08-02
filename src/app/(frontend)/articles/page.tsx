@@ -2,7 +2,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import config from '@payload-config'
 import { ArticleCard } from '@/components/ArticleCard'
-import ArticleFilters from '../../../components/ArticleFilters'
+import ArticleFilters from '@/components/ArticleFilters'
 import { Article } from '@/payload-types'
 
 export type FilterParams = {
@@ -87,12 +87,14 @@ async function getFilterOptions() {
 export default async function ArticlesPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined }
+  searchParams: Promise<{ [key: string]: string | undefined }>
 }) {
+  const resolvedSearchParams = await searchParams
+
   const filters: FilterParams = {
-    year: searchParams.year,
-    month: searchParams.month,
-    topic: searchParams.topic,
+    year: resolvedSearchParams.year,
+    month: resolvedSearchParams.month,
+    topic: resolvedSearchParams.topic,
   }
 
   const [articles, filterOptions] = await Promise.all([

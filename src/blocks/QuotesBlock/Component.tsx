@@ -10,7 +10,7 @@ export default function QuoteBlockComponent(block: QuoteBlock) {
         {Array.isArray(block.quotes) &&
           block.quotes.length > 0 &&
           block.quotes.map((quote, i) => {
-            if (quote.quote && typeof quote.quote != 'number') {
+            if (quote.quote && typeof quote.quote != 'number' && typeof quote.quote != 'string') {
               return <QuoteCard key={i} quote={quote.quote} />
             }
             return null

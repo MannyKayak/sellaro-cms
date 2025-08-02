@@ -3,7 +3,6 @@ import { getPayload } from 'payload'
 import config from '@payload-config'
 import { Event } from '@/payload-types'
 import { EventCard } from '@/components/EventCard'
-import { format } from 'date-fns'
 import EventFilters from '@/components/EventFilters'
 
 export type EventFilterParams = {
@@ -57,40 +56,44 @@ async function getFilterOptions() {
   const payload = await getPayload({ config })
   const events = await payload.find({
     collection: 'events',
-    limit: 1000,
+    limit: 10,
   })
 
-  const dates = events.docs.map((event) => {
-    const date = new Date(event.date)
-    return {
-      year: date.getFullYear(),
-      month: date.getMonth() + 1,
-    }
-  })
+  const dates = events.docs
+    .filter((event) => !!event.date)
+    .map((event) => {
+      const date = new Date(event.date)
+      return {
+        year: date.getFullYear(),
+        month: date.getMonth() + 1,
+      }
+    })
 
   const years = [...new Set(dates.map((d) => d.year))].sort((a, b) => b - a)
   const months = [...new Set(dates.map((d) => d.month))].sort((a, b) => a - b)
 
-  const topics = await payload.find({
-    collection: 'tags',
-  })
+  const topics = (await payload.find({ collection: 'tags' })).docs.sort((a, b) =>
+    a.name.localeCompare(b.name),
+  )
 
   return {
     years,
     months,
-    topics: topics.docs,
+    topics,
   }
 }
 
 export default async function EventsPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined }
+  searchParams: Promise<{ [key: string]: string | undefined }>
 }) {
+  const resolvedSearchParams = await searchParams
+
   const filters: EventFilterParams = {
-    year: searchParams.year,
-    month: searchParams.month,
-    topic: searchParams.topic,
+    year: resolvedSearchParams.year,
+    month: resolvedSearchParams.month,
+    topic: resolvedSearchParams.topic,
   }
 
   const [events, filterOptions] = await Promise.all([

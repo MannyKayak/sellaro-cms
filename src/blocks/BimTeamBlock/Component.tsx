@@ -25,7 +25,9 @@ export default function BimTeamBlockComponent(block: BimTeamProps) {
             'w-[calc(50%-10px)] sm:w-[calc(33.333%-13.333px)] md:w-[calc(25%-15px)] lg:w-[calc(20%-16px)]'
           return (
             <div key={index} className={baseWidth}>
-              {person && typeof person !== 'number' && <PersonCard {...person} />}
+              {person && typeof person !== 'number' && typeof person !== 'string' && (
+                <PersonCard {...person} />
+              )}
             </div>
           )
         })}

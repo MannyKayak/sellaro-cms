@@ -4,8 +4,9 @@ import config from '@payload-config'
 import React from 'react'
 import { RenderBlocks } from '@/components/RenderBlocks'
 
-export default async function Page({ params }: { params: { slug?: string[] } }) {
+export default async function Page({ params }: { params: Promise<{ slug?: string[] }> }) {
   const { slug } = await params
+
   const fullSlug = slug ? slug.join('/') : 'home'
 
   // Ignora favicon.ico se presente
