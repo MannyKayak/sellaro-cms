@@ -15,7 +15,7 @@ export default function PageTitleBlockComponent(block: PageTitleBlock) {
   const renderFullWidthImage = () => {
     if (!imageUrl) return null
     return (
-      <div className="w-screen h-[60vh] relative overflow-hidden">
+      <div className="w-screen h-[70vh] relative overflow-hidden">
         <Image src={imageUrl} alt={title || 'Immagine'} fill className="object-cover" priority />
       </div>
     )
@@ -41,7 +41,7 @@ export default function PageTitleBlockComponent(block: PageTitleBlock) {
   if (layoutSelector === 'background' && imageUrl) {
     return (
       <div
-        className={`w-full py-10 px-6 ${titleColorSelector} text-center bg-cover bg-center bg-no-repeat`}
+        className={`w-full h-[70vh] px-6 ${titleColorSelector} text-center bg-cover bg-center bg-no-repeat flex flex-col justify-center items-center`}
         style={{ backgroundImage: `url(${imageUrl})` }}
       >
         <h1 className="text-4xl md:text-6xl font-bold drop-shadow-lg">{title}</h1>
