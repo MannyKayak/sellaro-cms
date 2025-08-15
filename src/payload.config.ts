@@ -27,6 +27,18 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    meta: {
+      title: 'Andrea Vittorio Sellaro',
+      description: 'Andrea Vittorio Sellaro Bim Manager portfolio',
+
+      icons: [
+        {
+          rel: 'icon',
+          type: 'image/ico',
+          url: '/favicon.ico',
+        },
+      ],
+    },
   },
   routes: {
     admin: '/cms-panel-22070826',

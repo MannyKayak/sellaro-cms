@@ -8,10 +8,11 @@ import Navbar from '@/components/Navbar'
 
 export const metadata = {
   description: 'Andrea Vittorio Sellaro Bim Manager portfolio',
-  icons: {
-    icon: '/favicon.ico',
-  },
   title: 'Vittorio Andrea Sellaro Portfolio',
+  icons: [
+    { rel: 'icon', url: '/favicon.ico' },
+    { rel: 'shortcut icon', url: '/favicon.ico' },
+  ],
 }
 
 export default async function RootLayout(props: { children: React.ReactNode }) {

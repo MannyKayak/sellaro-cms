@@ -31,7 +31,7 @@ export default function Footer(props: FooterProps) {
             </li>
             <li>
               <Link href="/bimknow" className="hover:text-white transition">
-                BIM(k)now
+                BIM (K)now!
               </Link>
             </li>
             <li>

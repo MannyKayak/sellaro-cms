@@ -6,6 +6,9 @@ export const People: CollectionConfig = {
     singular: 'BIM team',
     plural: 'BIM teams',
   },
+  admin: {
+    useAsTitle: 'name',
+  },
   fields: [
     {
       name: 'name',

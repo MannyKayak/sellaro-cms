@@ -57,6 +57,7 @@ async function getFilterOptions() {
   const events = await payload.find({
     collection: 'events',
     limit: 10,
+    sort: 'date',
   })
 
   const dates = events.docs

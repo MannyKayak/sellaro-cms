@@ -6,13 +6,27 @@ import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
 import { Navigation, Pagination } from 'swiper/modules'
-import { CarouselBlock as CarouselType } from '@/payload-types'
+import { CarouselBlock as CarouselType, Event } from '@/payload-types'
 import { EventCard } from '@/components/EventCard'
 import { CalendarDays, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
 export default function CarouselBlock(block: CarouselType) {
   const { title, events } = block
+
+  const sortedEvents = [...events]
+    .filter(
+      (e): e is Exclude<typeof e, string | number> =>
+        typeof e === 'object' && e !== null && 'date' in e,
+    )
+    .sort((a, b) => {
+      const ta = new Date((a as Event).date ?? 0).getTime()
+      const tb = new Date((b as Event).date ?? 0).getTime()
+      // porta in fondo quelli senza data valida
+      const safeA = isNaN(ta) ? Number.POSITIVE_INFINITY : ta
+      const safeB = isNaN(tb) ? Number.POSITIVE_INFINITY : tb
+      return safeB - safeA
+    })
 
   return (
     <section className="py-12 px-6 bg-white relative">
@@ -51,7 +65,7 @@ export default function CarouselBlock(block: CarouselType) {
           } as React.CSSProperties
         }
       >
-        {events.map((event) =>
+        {sortedEvents.map((event) =>
           event && typeof event !== 'number' && typeof event !== 'string' ? (
             <SwiperSlide
               key={event.id}

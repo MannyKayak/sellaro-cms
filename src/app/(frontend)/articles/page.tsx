@@ -58,6 +58,7 @@ async function getFilterOptions() {
   const articles = await payload.find({
     collection: 'articles',
     limit: 1000,
+    sort: 'Data Articolo',
   })
 
   // Extract unique years and months from articles
