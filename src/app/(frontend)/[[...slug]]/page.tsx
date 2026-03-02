@@ -8,11 +8,14 @@ export default async function Page({ params }: { params: Promise<{ slug?: string
   const { slug } = await params
 
   const fullSlug = slug ? slug.join('/') : 'home'
+  const lastSegment = slug?.[slug.length - 1]
 
-  // Ignora richieste speciali
+  // Ignore special framework/static file requests.
   if (fullSlug === 'favicon.ico' || fullSlug === 'robots.txt' || fullSlug === 'sitemap.xml') {
     return null
   }
+  if (lastSegment?.includes('.')) return notFound()
+
   // Chiama Payload CMS
   const payload = await getPayload({
     config,
@@ -26,11 +29,12 @@ export default async function Page({ params }: { params: Promise<{ slug?: string
       },
     },
   })
-  if (!page) return notFound()
+  const foundPage = page.docs[0]
+  if (!foundPage) return notFound()
 
   return (
     <main>
-      <RenderBlocks blocks={page.docs[0].layout} />
+      <RenderBlocks blocks={foundPage.layout} />
     </main>
   )
 }

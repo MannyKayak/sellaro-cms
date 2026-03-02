@@ -4,7 +4,7 @@
 @import 'swiper/css';
 
 :root {
-  --font-klavika: var(--font-klavika);
+  --font-klavika: 'KlavikaWebBasic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 * {

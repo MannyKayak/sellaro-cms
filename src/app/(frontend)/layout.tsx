@@ -1,6 +1,5 @@
 import './styles.css'
 import React from 'react'
-import klavika from '@/font/klavika'
 import Footer from '@/globals/Footer/Component'
 import { getPayload } from 'payload'
 import config from '@payload-config'
@@ -28,7 +27,10 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   })
 
   return (
-    <html lang="en" className={`${klavika.variable} antialiased`}>
+    <html lang="en" className={` antialiased`}>
+      <head>
+        <link href="/webfonts/font-styles.css" rel="stylesheet" type="text/css"></link>
+      </head>
       <body className="bg-white">
         <Navbar pages={pages.docs} />
         <main>{children}</main>

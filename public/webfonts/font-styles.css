@@ -1,0 +1,65 @@
+/*
+- - - > |  @font-face  | < - - - 
+*/
+/* Klavika Web Basic Regular */
+	@font-face {
+	font-family: 'KlavikaWebBasic';
+	src: url('KlavikaWebBasicRegular/KlavikaWebBasicRegular.woff2') format('woff2'),
+	     url('KlavikaWebBasicRegular/KlavikaWebBasicRegular.woff') format('woff');
+	font-weight: 400;
+	font-style: normal;
+	}
+
+/* Klavika Web Basic Regular Italic */
+	@font-face {
+	font-family: 'KlavikaWebBasic';
+	src: url('KlavikaWebBasicRegularItalic/KlavikaWebBasicRegularItalic.woff2') format('woff2'),
+	     url('KlavikaWebBasicRegularItalic/KlavikaWebBasicRegularItalic.woff') format('woff');
+	font-weight: 400;
+	font-style: italic;
+	}
+
+/* Klavika Web Basic Bold */
+	@font-face {
+	font-family: 'KlavikaWebBasic';
+	src: url('KlavikaWebBasicBold/KlavikaWebBasicBold.woff2') format('woff2'),
+	     url('KlavikaWebBasicBold/KlavikaWebBasicBold.woff') format('woff');
+	font-weight: 700;
+	font-style: normal;
+	}
+
+/* Klavika Web Basic Bold Italic */
+	@font-face {
+	font-family: 'KlavikaWebBasic';
+	src: url('KlavikaWebBasicBoldItalic/KlavikaWebBasicBoldItalic.woff2') format('woff2'),
+	     url('KlavikaWebBasicBoldItalic/KlavikaWebBasicBoldItalic.woff') format('woff');
+	font-weight: 700;
+	font-style: italic;
+	}
+
+/*
+- - - > |  Font Classes  | < - - - 
+*/
+.KlavikaWebBasicRegular {
+	font-family: 'KlavikaWebBasic';
+	font-weight: 400;
+	font-style: normal;
+	}
+
+.KlavikaWebBasicRegularItalic {
+	font-family: 'KlavikaWebBasic';
+	font-weight: 400;
+	font-style: italic;
+	}
+
+.KlavikaWebBasicBold {
+	font-family: 'KlavikaWebBasic';
+	font-weight: 700;
+	font-style: normal;
+	}
+
+.KlavikaWebBasicBoldItalic {
+	font-family: 'KlavikaWebBasic';
+	font-weight: 700;
+	font-style: italic;
+	}
