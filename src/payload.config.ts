@@ -1,7 +1,7 @@
 // storage-adapter-import-placeholder
 import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
+import { lexicalEditor, FixedToolbarFeature } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -45,7 +45,9 @@ export default buildConfig({
   },
   globals: [Footer],
   collections: [Users, Media, Events, Articles, Pages, Quotes, People, Tags],
-  editor: lexicalEditor(),
+  editor: lexicalEditor({
+    features: ({ defaultFeatures }) => [...defaultFeatures, FixedToolbarFeature()],
+  }),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),

@@ -56,12 +56,13 @@ export const Events: CollectionConfig = {
     {
       name: 'description',
       label: 'Descrizione',
-      type: 'textarea',
+      type: 'richText',
       required: true,
     },
     {
       name: 'otherInfo',
-      type: 'textarea',
+      label: 'Altre informazioni',
+      type: 'richText',
     },
   ],
 }

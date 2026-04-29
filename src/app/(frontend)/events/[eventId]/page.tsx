@@ -9,6 +9,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { ArticleCard } from '@/components/ArticleCard'
 import GridContainerComponent from '@/components/GridComponent'
+import { RichText } from '@/components/RichText'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 export default async function EventPage({ params }: { params: Promise<{ eventId?: string }> }) {
   const { eventId } = await params
@@ -26,7 +28,16 @@ export default async function EventPage({ params }: { params: Promise<{ eventId?
 
   if (!event) return notFound()
 
-  const { title, description, image, date, location, guests, link, tag, id } = event as Event
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  function hasRichTextContent(data: unknown): boolean {
+    if (!data || typeof data !== 'object') return false
+    const root = (data as any).root
+    return root?.children?.some((block: any) =>
+      block.children?.some((node: any) => node.text?.trim()),
+    )
+  }
+
+  const { title, description, image, date, location, guests, link, tag, id, otherInfo } = event as Event
 
   const relatedArticles = await payload.find({
     collection: 'articles',
@@ -90,7 +101,15 @@ export default async function EventPage({ params }: { params: Promise<{ eventId?
             </div>
           )}
           {description && (
-            <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: description }} />
+            <div className="prose max-w-none">
+              <RichText data={description as unknown as SerializedEditorState} />
+            </div>
+          )}
+          {hasRichTextContent(otherInfo) && (
+            <div className="mt-6 prose max-w-none">
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Altre informazioni</h3>
+              <RichText data={otherInfo as unknown as SerializedEditorState} />
+            </div>
           )}
           {/* Iscrizione */}
           {link && (

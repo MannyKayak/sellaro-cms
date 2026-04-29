@@ -10,7 +10,7 @@ export const Quotes: CollectionConfig = {
     {
       name: 'content',
       label: 'Contenuto',
-      type: 'textarea',
+      type: 'richText',
       required: true,
     },
     {

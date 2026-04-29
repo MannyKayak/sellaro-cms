@@ -5,6 +5,8 @@ import { format } from 'date-fns'
 import { it } from 'date-fns/locale'
 import { PenLineIcon } from 'lucide-react'
 import Link from 'next/link'
+import { RichText } from '@/components/RichText'
+import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 
 type Props = {
   article: Article
@@ -47,9 +49,11 @@ export const ArticleCard: React.FC<Props> = ({ article }) => {
             {article.title}
           </h3>
 
-          <p className="text-sm sm:text-base text-gray-800 leading-relaxed line-clamp-3 min-h-[4.5em] mb-0.5">
-            {article.Descrizione || ''}
-          </p>
+          <div className="text-sm sm:text-base text-gray-800 leading-relaxed line-clamp-3 min-h-[4.5em] mb-0.5 prose prose-sm max-w-none">
+            {article.Descrizione && (
+              <RichText data={article.Descrizione as unknown as SerializedEditorState} />
+            )}
+          </div>
 
           {article.author && (
             <p className="flex items-center gap-2 text-xs text-gray-500 mt-0">

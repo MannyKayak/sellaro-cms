@@ -42,7 +42,7 @@ export const Articles: CollectionConfig = {
     },
     {
       name: 'Descrizione',
-      type: 'textarea',
+      type: 'richText',
     },
     {
       name: 'source',
