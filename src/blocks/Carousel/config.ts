@@ -21,12 +21,10 @@ export const CarouselBlock: Block = {
       type: 'text',
     },
     {
-      name: 'events',
-      label: 'Eventi da mostrare',
-      type: 'relationship',
-      relationTo: 'events',
-      hasMany: true,
-      required: true,
+      name: 'eventsToShow',
+      label: 'Numero di eventi recenti da mostrare',
+      type: 'number',
+      defaultValue: 5,
     },
   ],
 }

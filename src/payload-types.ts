@@ -334,7 +334,7 @@ export interface SectionWithMediaAndText {
 export interface CarouselBlock {
   title?: string | null;
   reference?: string | null;
-  events: (string | Event)[];
+  eventsToShow?: number | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'carousel';
@@ -668,7 +668,7 @@ export interface SectionWithMediaAndTextSelect<T extends boolean = true> {
 export interface CarouselBlockSelect<T extends boolean = true> {
   title?: T;
   reference?: T;
-  events?: T;
+  eventsToShow?: T;
   id?: T;
   blockName?: T;
 }

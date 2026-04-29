@@ -20,6 +20,7 @@ type EventQuery = {
     }
   }
   limit?: number
+  sort?: string
 }
 
 async function getFilteredEvents(filters: EventFilterParams) {
@@ -28,6 +29,7 @@ async function getFilteredEvents(filters: EventFilterParams) {
   const query: EventQuery = {
     collection: 'events',
     where: {},
+    sort: '-date',
   }
 
   if (filters.year) {
@@ -56,8 +58,8 @@ async function getFilterOptions() {
   const payload = await getPayload({ config })
   const events = await payload.find({
     collection: 'events',
-    limit: 10,
-    sort: 'date',
+    limit: 0,
+    sort: '-date',
   })
 
   const dates = events.docs
