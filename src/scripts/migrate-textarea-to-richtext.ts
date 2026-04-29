@@ -1,5 +1,10 @@
-import { getPayload } from 'payload'
-import config from '@payload-config'
+import { MongoClient } from 'mongodb'
+
+const DATABASE_URI = process.env.DATABASE_URI
+if (!DATABASE_URI) {
+  console.error('DATABASE_URI not set')
+  process.exit(1)
+}
 
 function textToLexical(text: string) {
   const lines = text.split('\n')
@@ -34,63 +39,57 @@ function textToLexical(text: string) {
   }
 }
 
-async function main() {
-  const payload = await getPayload({ config })
+async function migrate(
+  col: ReturnType<typeof MongoClient.prototype.db>['collection'] extends (name: string) => infer R
+    ? R
+    : never,
+  fields: string[],
+  label: string,
+) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const db = (payload.db as any).connection.db
-
-  // --- Events: description + otherInfo ---
-  const eventsCol = db.collection('events')
-  const events = await eventsCol.find({}).toArray()
-  let eventCount = 0
-  for (const doc of events) {
+  const docs = await (col as any).find({}).toArray()
+  let count = 0
+  for (const doc of docs) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const updates: Record<string, any> = {}
-    if (typeof doc.description === 'string') {
-      updates.description = textToLexical(doc.description)
-    }
-    if (typeof doc.otherInfo === 'string') {
-      updates.otherInfo = textToLexical(doc.otherInfo)
+    for (const field of fields) {
+      if (typeof doc[field] === 'string') {
+        updates[field] = textToLexical(doc[field])
+      }
     }
     if (Object.keys(updates).length > 0) {
-      await eventsCol.updateOne({ _id: doc._id }, { $set: updates })
-      eventCount++
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      await (col as any).updateOne({ _id: doc._id }, { $set: updates })
+      count++
     }
   }
-  console.log(`Events migrated: ${eventCount}/${events.length}`)
+  console.log(`${label}: ${count}/${docs.length} migrated`)
+}
 
-  // --- Articles: Descrizione ---
-  const articlesCol = db.collection('articles')
-  const articles = await articlesCol.find({}).toArray()
-  let articleCount = 0
-  for (const doc of articles) {
-    if (typeof doc.Descrizione === 'string') {
-      await articlesCol.updateOne(
-        { _id: doc._id },
-        { $set: { Descrizione: textToLexical(doc.Descrizione) } },
-      )
-      articleCount++
-    }
-  }
-  console.log(`Articles migrated: ${articleCount}/${articles.length}`)
+async function main() {
+  const client = new MongoClient(DATABASE_URI!)
+  await client.connect()
 
-  // --- Quotes: content ---
-  const quotesCol = db.collection('quotes')
-  const quotes = await quotesCol.find({}).toArray()
-  let quoteCount = 0
-  for (const doc of quotes) {
-    if (typeof doc.content === 'string') {
-      await quotesCol.updateOne(
-        { _id: doc._id },
-        { $set: { content: textToLexical(doc.content) } },
-      )
-      quoteCount++
-    }
-  }
-  console.log(`Quotes migrated: ${quoteCount}/${quotes.length}`)
+  // Payload names the DB from the connection URI — extract it
+  const url = new URL(DATABASE_URI!)
+  const dbName = url.pathname.replace(/^\//, '')
+  const db = client.db(dbName)
 
+  const collections = await db.listCollections().toArray()
+  console.log('DB:', dbName)
+  console.log('Collections:', collections.map((c) => c.name))
+
+  const sampleEvent = await db.collection('events').findOne({})
+  console.log('Sample event keys:', sampleEvent ? Object.keys(sampleEvent) : 'none')
+  console.log('Sample event description type:', typeof sampleEvent?.description)
+  console.log('Sample event description value:', JSON.stringify(sampleEvent?.description)?.slice(0, 100))
+
+  await migrate(db.collection('events'), ['description', 'otherInfo'], 'Events')
+  await migrate(db.collection('articles'), ['Descrizione'], 'Articles')
+  await migrate(db.collection('quotes'), ['content'], 'Quotes')
+
+  await client.close()
   console.log('Migration complete.')
-  process.exit(0)
 }
 
 main().catch((err) => {
